@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+weaviate-client = "==3.15.6"
+python-dotenv = "==1.0.0"
+openai = "==0.27.4"
+duckduckgo-search = "==2.8.6"
+datasets = "==2.11.0"
+torch = "==2.0.0"
+transformers = "==4.28.0"
+scikit-learn = "==1.2.2"
+tqdm = "==4.65.0"
+numpy = "==1.24.2"
+nltk = "==3.8.1"
+scipy = "==1.10.1"
+jupyterlab = "==3.6.3"
+sentencepiece = "==0.1.98"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
