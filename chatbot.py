@@ -4,7 +4,6 @@ import json
 from duckduckgo_search import ddg 
 from brain import BrainInstance
 import requests
-from transformers import T5ForConditionalGeneration, T5Tokenizer
 import warnings
 from bs4 import BeautifulSoup
 from parse_text import split_text, create_message
@@ -62,9 +61,6 @@ def learn(query: str) -> str:
             r = requests.get(result['href'])
             soup = BeautifulSoup(r.content, 'html.parser')
             text = soup.get_text()
-            # input(text)
-            # summary = summarize_text(text)
-            # input(summary)
             texts.append(text)
         except Exception:
             continue
@@ -83,15 +79,6 @@ def learn(query: str) -> str:
             BrainInstance.add_data(data)
             break
 
-
-def summarize_text(text, model_name="t5-small", max_length=150):
-    tokenizer = T5Tokenizer.from_pretrained(model_name)
-    model = T5ForConditionalGeneration.from_pretrained(model_name)
-
-    inputs = tokenizer.encode("summarize: " + text, return_tensors="pt", max_length=512, truncation=True)
-    summary_ids = model.generate(inputs, max_length=max_length, num_return_sequences=1, num_beams=4, early_stopping=True)
-
-    return tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
 def summarize(
     text: str, question: str,
@@ -124,7 +111,7 @@ def summarize(
 
     combined_summary = "\n".join(summaries)
     if len(list(split_text(combined_summary, 4000)))>1:
-        summarized =  summarize_text(combined_summary, question)
+        summarized =  summarize(combined_summary, question)
         return summarized
     else:
         return combined_summary
